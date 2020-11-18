@@ -24,7 +24,7 @@ func locationHandler(rw http.ResponseWriter, req *http.Request) {
 			return
 		}
 		// Check if driver_id exists
-		_, err = addLocation(newLocation)
+		_, err = insertLocation(newLocation)
 		if err != nil {
 			rw.WriteHeader(http.StatusInternalServerError)
 			return
@@ -33,7 +33,11 @@ func locationHandler(rw http.ResponseWriter, req *http.Request) {
 		return
 
 	case http.MethodGet:
-		locationList := getLocations()
+		locationList, err := getLocations()
+		if err != nil {
+			rw.WriteHeader(http.StatusInternalServerError)
+			return
+		}
 		locationsJSON, err := json.Marshal(locationList)
 		if err != nil {
 			rw.WriteHeader(http.StatusInternalServerError)
