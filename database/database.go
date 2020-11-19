@@ -25,8 +25,8 @@ func SetupDatabase() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer DbConn.Close()
 	DbConn.SetMaxOpenConns(5)
 	DbConn.SetMaxIdleConns(5)
 	DbConn.SetConnMaxLifetime(60 * time.Second)
+	// defer DbConn.Close()
 }
