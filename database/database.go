@@ -7,20 +7,13 @@ import (
 	"time"
 )
 
-const (
-	host   = "localhost"
-	port   = 5432
-	user   = "postgres"
-	dbname = "delivery-tracking"
-)
-
 // DbConn a database connection
 var DbConn *sql.DB
 
 // SetupDatabase creates a connection pool to the database
-func SetupDatabase() {
+func SetupDatabase(host, dbUser, dbName string, port int) {
 	var err error
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s dbname=%s sslmode=disable", host, port, user, dbname)
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s dbname=%s sslmode=disable", host, port, dbUser, dbName)
 	DbConn, err = sql.Open("postgres", psqlInfo)
 	if err != nil {
 		log.Fatal(err)
