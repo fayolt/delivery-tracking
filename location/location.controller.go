@@ -43,7 +43,7 @@ func locationsHandler(jobs chan processor.Job, rw http.ResponseWriter, req *http
 		// Create Job and push the work onto the job channel.
 		job := processor.NewJob(newLocation)
 		jobs <- *job
-		log.Printf("location.Controller - INFO - %v added to jobs queue", newLocation)
+		log.Printf("location.Controller - INFO - %+v added to jobs queue", newLocation)
 
 		rw.WriteHeader(http.StatusAccepted)
 		return

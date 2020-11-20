@@ -4,7 +4,7 @@
 
 * Postgres 9.6 
 
-* Database structure available in `delivery-tracking.sql`
+* Database structure available in `database/fixture.sql`
 
 ### Assumptions
 

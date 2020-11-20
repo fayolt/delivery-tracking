@@ -31,8 +31,8 @@ func startProcessor(jobChannel chan Job, wg *sync.WaitGroup, pf processorFunc) {
 			log.Printf("processor.CreateProcessors - ERROR - %v", err)
 			job.fails++
 			go func() {
-				// Check reenqueue condition
-				log.Printf("processor.startProcessors - INFO - Pushing back %v into the jobs queue", job.data)
+				// Check reenqueue conditions???
+				log.Printf("processor.startProcessors - INFO - Pushing back %+v into the jobs queue", job.data)
 				time.Sleep(time.Duration(job.fails) * time.Second)
 				jobChannel <- job
 			}()
