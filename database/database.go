@@ -28,5 +28,6 @@ func SetupDatabase() {
 	DbConn.SetMaxOpenConns(5)
 	DbConn.SetMaxIdleConns(5)
 	DbConn.SetConnMaxLifetime(60 * time.Second)
+	fmt.Println("database connection successfull")
 	// defer DbConn.Close()
 }

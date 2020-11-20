@@ -36,7 +36,8 @@ func getLocations() ([]Location, error) {
 	return locations, nil
 }
 
-func insertLocation(location Location) (int, error) {
+// InsertLocation ...
+func InsertLocation(location Location) (int, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	result, err := database.DbConn.ExecContext(ctx, `INSERT INTO locations

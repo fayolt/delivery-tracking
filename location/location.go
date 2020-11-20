@@ -10,10 +10,3 @@ type Location struct {
 }
 
 // { “latitude” : 123, “longitude” : 123, “driver_id”: 1 }
-
-// Driver is representation of a driver's details
-type Driver struct {
-	ID        int
-	firstName string
-	lastName  string
-}
