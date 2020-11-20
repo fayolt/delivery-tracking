@@ -2,7 +2,7 @@ package location
 
 import (
 	"encoding/json"
-	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/fayolt/delivery-tracking/processor"
@@ -15,7 +15,7 @@ type Controller struct {
 
 // NewController creates an instance of locationController
 func NewController(jobChannel chan processor.Job) *Controller {
-	fmt.Println("controller created successfull")
+	log.Println("location.Controller - INFO - New location controler created")
 	return &Controller{
 		jobs: jobChannel,
 	}
@@ -30,10 +30,12 @@ func (controller Controller) ServeHTTP(rw http.ResponseWriter, req *http.Request
 func locationsHandler(jobs chan processor.Job, rw http.ResponseWriter, req *http.Request) {
 	switch req.Method {
 	case http.MethodPost:
+		log.Printf("location.Controller - INFO - %s %s", req.Method, req.URL)
 		// Add a new location
 		var newLocation Location
 		err := json.NewDecoder(req.Body).Decode(&newLocation)
 		if err != nil {
+			log.Printf("location.Controller - ERROR - %v", err)
 			rw.WriteHeader(http.StatusBadRequest)
 			return
 		}
@@ -41,27 +43,22 @@ func locationsHandler(jobs chan processor.Job, rw http.ResponseWriter, req *http
 		// Create Job and push the work onto the job channel.
 		job := processor.NewJob(newLocation)
 		jobs <- *job
-		// go func() {
+		log.Printf("location.Controller - INFO - %v added to jobs queue", newLocation)
 
-		// }()
-
-		// _, err = insertLocation(newLocation)
-		// if err != nil {
-		// 	rw.WriteHeader(http.StatusInternalServerError)
-		// 	return
-		// }
 		rw.WriteHeader(http.StatusAccepted)
 		return
 
 	case http.MethodGet:
-		fmt.Println("GET request received")
+		log.Printf("location.Controller - INFO - %s %s", req.Method, req.URL)
 		locationList, err := getLocations()
 		if err != nil {
+			log.Printf("location.Controller - ERROR - %v", err)
 			rw.WriteHeader(http.StatusInternalServerError)
 			return
 		}
 		locationsJSON, err := json.Marshal(locationList)
 		if err != nil {
+			log.Printf("location.Controller - ERROR - %v", err)
 			rw.WriteHeader(http.StatusInternalServerError)
 			return
 		}

@@ -17,7 +17,7 @@ const (
 // DbConn a database connection
 var DbConn *sql.DB
 
-// SetupDatabase ...
+// SetupDatabase creates a connection pool to the database
 func SetupDatabase() {
 	var err error
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s dbname=%s sslmode=disable", host, port, user, dbname)
@@ -28,6 +28,7 @@ func SetupDatabase() {
 	DbConn.SetMaxOpenConns(5)
 	DbConn.SetMaxIdleConns(5)
 	DbConn.SetConnMaxLifetime(60 * time.Second)
-	fmt.Println("database connection successfull")
+	log.Println("database.SetupDatabase - Info - Connection to database established")
+
 	// defer DbConn.Close()
 }
