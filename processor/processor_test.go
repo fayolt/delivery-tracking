@@ -1,7 +1,9 @@
 package processor
 
 import (
+	"errors"
 	"fmt"
+	"sync"
 	"testing"
 	"time"
 
@@ -46,5 +48,26 @@ func TestCreateProcessorsPool(t *testing.T) {
 
 	assert.Equal(t, false, ok)
 	assert.Equal(t, Job{data: interface{}(nil), fails: 0}, value)
+
+}
+
+func TestStartProcessorWithReEnqueue(t *testing.T) {
+	errFunc := func(value interface{}) (interface{}, error) {
+		return nil, errors.New("test")
+	}
+	jobs := make(chan Job, 1)
+	jobs <- *NewJob("test")
+
+	wg := &sync.WaitGroup{}
+
+	go startProcessor(jobs, wg, errFunc)
+
+	time.Sleep(300 * time.Millisecond)
+
+	value := <-jobs
+
+	assert.Equal(t, "test", value.data)
+	assert.Less(t, 0, value.fails)
+	jobs = nil
 
 }

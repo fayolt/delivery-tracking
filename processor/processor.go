@@ -36,7 +36,6 @@ func startProcessor(jobChannel chan Job, wg *sync.WaitGroup, pf processorFunc) {
 }
 
 func processJob(job Job, pf processorFunc) (interface{}, error) {
-	log.Printf("processor.processJob - INFO - processing job %+v", job)
 	return pf(job.data)
 }
 

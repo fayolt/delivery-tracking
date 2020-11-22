@@ -54,4 +54,9 @@ Now the backend app should be available at [`localhost:5000`](http://localhost:5
 
 * Job is added back to queue for later processing after failure
 * Job processing failure related only to network/db unavailability/external issues
-* Data doesn't violate any integrity constraints 
+* Data doesn't violate any integrity constraints
+
+### Possible Improvments
+
+* Drain job queue and save all available locations before shutting down the server
+* 
