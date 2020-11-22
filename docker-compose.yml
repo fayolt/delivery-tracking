@@ -6,6 +6,8 @@ services:
       - POSTGRES_USER
       - POSTGRES_DB
       - POSTGRES_HOST_AUTH_METHOD
+    ports:
+      - "$POSTGRES_PORT:5432"
     volumes:
     - ./database/fixture.sql:/docker-entrypoint-initdb.d/init.sql
 
@@ -19,4 +21,4 @@ services:
       - db
     environment: 
       - PORT
-    command: "-port=$PORT -db_name=$POSTGRES_DB -db_host=db -db_user=$POSTGRES_USER"
+    command: "-port=$PORT -max_processors=$MAX_PROCESSORS -db_host=db -db_port=$POSTGRES_PORT -db_name=$POSTGRES_DB -db_user=$POSTGRES_USER"

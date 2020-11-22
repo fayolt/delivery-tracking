@@ -27,7 +27,7 @@ func main() {
 
 	flag.Parse()
 
-	database.SetupDatabase(*dbHost, *dUser, *dbName, *dbPort)
+	database.InitDB(*dbHost, *dUser, *dbName, *dbPort)
 
 	// Create jobs queue
 	jobsQueue := make(chan processor.Job)

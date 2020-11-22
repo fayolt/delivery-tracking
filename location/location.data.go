@@ -59,6 +59,6 @@ func InsertLocation(location Location) (int, error) {
 		log.Printf("location.data.InsertLocation - ERROR - %v", err)
 		return 0, err
 	}
-	log.Printf("location.data.InsertLocation - INFO - %v written to database", location)
+	log.Printf("location.data.InsertLocation - INFO - %+v written to database", location)
 	return lastInsertID, nil
 }
