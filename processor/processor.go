@@ -19,8 +19,6 @@ func CreateProcessorsPool(jobChannel chan Job, poolSize int, pf processorFunc) {
 
 	}
 	wg.Wait()
-	log.Println("processor.CreateProcessors - INFO - Closing jobs channel")
-	close(jobChannel)
 }
 
 // startProcessor
@@ -33,10 +31,12 @@ func startProcessor(jobChannel chan Job, wg *sync.WaitGroup, pf processorFunc) {
 			go reEnqueueJob(jobChannel, job)
 		}
 	}
+	log.Println("processor.startProcessor - INFO - processor done")
 	wg.Done()
 }
 
 func processJob(job Job, pf processorFunc) (interface{}, error) {
+	log.Printf("processor.processJob - INFO - processing job %+v", job)
 	return pf(job.data)
 }
 

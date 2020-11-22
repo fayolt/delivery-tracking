@@ -1,7 +1,9 @@
 package processor
 
 import (
+	"fmt"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -23,4 +25,26 @@ func TestReEnqueueJob(t *testing.T) {
 	assert.Equal(t, 1, len(jobs))
 	got := <-jobs
 	assert.Equal(t, "test", got.data)
+	close(jobs)
+}
+
+func TestCreateProcessorsPool(t *testing.T) {
+	idFunc := func(value interface{}) (interface{}, error) {
+		return value, nil
+	}
+	jobs := make(chan Job)
+	go func() {
+		for i := 1; i <= 5; i++ {
+			jobs <- *NewJob(fmt.Sprintf("test-%d", i))
+		}
+		close(jobs)
+	}()
+	go CreateProcessorsPool(jobs, 2, idFunc)
+	time.Sleep(1 * time.Second)
+
+	value, ok := <-jobs
+
+	assert.Equal(t, false, ok)
+	assert.Equal(t, Job{data: interface{}(nil), fails: 0}, value)
+
 }
