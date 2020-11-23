@@ -58,5 +58,5 @@ Now the backend app should be available at [`localhost:5000`](http://localhost:5
 
 ### Possible Improvments
 
-* Drain job queue and save all available locations before shutting down the server
-* 
+* Ensure that the job queue is drained and all available locations are processed before exiting the app
+* Integrate an asynchronous task queue/job queue like Machinery with RabbitMQ as broker and Redis as backend to add queue persistence and better retry policy.
